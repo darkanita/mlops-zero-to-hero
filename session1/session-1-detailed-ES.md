@@ -1,4 +1,4 @@
-# Sesión 1: Fundamentos MLOps y Configuración del Entorno - Plan de Enseñanza Detallado
+# Sesión 1: Fundamentos MLOps y Configuración del Entorno
 
 **🌍 Idiomas:** [English](session-1-detailed.md) | [Español](session-1-detailed-ES.md)
 

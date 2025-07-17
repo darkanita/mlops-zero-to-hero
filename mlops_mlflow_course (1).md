@@ -1,4 +1,7 @@
 # MLOps with MLFlow: Zero to Hero Course
+
+**🌍 Languages:** [English](README.md) | [Spanish](README-ES.md)
+
 **Duration:** 20 hours (5 sessions × 4 hours)  
 **Format:** Theoretical + Practical  
 **Tech Stack:** Python, MLFlow (Latest Version), Docker, Git

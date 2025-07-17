@@ -1,6 +1,6 @@
 # Sesión 1: Fundamentos MLOps y Configuración del Entorno
 
-**🌍 Idiomas:** [English](session-1-detailed.md) | [Español](session-1-detailed-ES.md)
+**🌍 Idiomas:** [Ingles](session-1-detailed.md) | [Español](session-1-detailed-ES.md)
 
 **Duración:** 4 horas  
 **Formato:** Teoría (1.5h) + Laboratorio Práctico (2.5h)  

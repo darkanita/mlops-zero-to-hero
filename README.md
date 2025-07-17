@@ -29,6 +29,44 @@ By the end of this course, students will be able to:
 
 ---
 
+## 🔧 Additional Topics Beyond MLFlow Documentation
+
+This course covers essential MLOps topics that complement the official MLFlow documentation:
+
+### **Data Engineering & Quality**
+- **Data Validation**: Quality checks, profiling, and drift detection
+- **Dataset Management**: Versioning datasets within MLFlow artifacts
+- **Feature Engineering**: Best practices and reproducibility
+
+### **Software Engineering for ML**
+- **Testing Strategies**: Unit tests, integration tests, and ML-specific testing
+- **Code Quality**: Linting (ruff), type checking (mypy), and pre-commit hooks
+- **Environment Management**: Modern Python tooling with uv
+
+### **DevOps & Infrastructure**
+- **CI/CD for ML**: Automated testing, validation, and deployment pipelines
+- **Containerization**: Docker best practices for ML applications
+- **Security**: Authentication, authorization, and secure deployments
+
+### **Production Operations**
+- **Monitoring**: Model performance, data drift, and system health
+- **Cost Management**: Resource optimization and budget tracking
+- **Incident Response**: Debugging and troubleshooting ML systems
+
+### **Team Collaboration**
+- **Governance**: Model approval workflows and compliance
+- **Documentation**: Technical documentation and knowledge sharing
+- **Project Management**: Agile methodologies for ML projects
+
+### **Business Integration**
+- **ROI Measurement**: Quantifying MLOps value and impact
+- **Stakeholder Communication**: Presenting technical concepts to business users
+- **Change Management**: Adoption strategies and organizational transformation
+
+These topics ensure students gain comprehensive MLOps knowledge beyond just MLFlow usage, preparing them for real-world enterprise environments.
+
+---
+
 ## 📅 Session 1: MLOps Fundamentals & Environment Setup (4 hours)
 
 ### Theory (1.5 hours)
@@ -132,66 +170,121 @@ with mlflow.start_run():
 
 ---
 
-## 📅 Session 2: Data Versioning, Testing & Advanced Tracking (4 hours)
+## 📅 Session 2: Advanced MLFlow Features & Tool Selection Strategy (4 hours)
 
-### Theory (1 hour)
-- **Data Versioning with DVC** (30 min)
-  - Why data versioning matters in MLOps
-  - DVC concepts: data pipelines, remote storage
-  - Integration between DVC and MLFlow
-  - Data lineage and reproducibility
+### Theory (1.5 hours)
+- **MLFlow Model Registry Deep Dive** (30 min)
+  - Model lifecycle management strategies
+  - Staging environments (Development, Staging, Production)
+  - Model promotion workflows and approval processes
+  - Model lineage and metadata management
+
+- **Data Management Strategy: MLFlow vs DVC** (45 min)
+  - **When MLFlow artifacts are sufficient:**
+    - Datasets < 500MB
+    - Simple preprocessing pipelines
+    - Small teams (< 5 data scientists)
+    - Prototype and learning environments
   
-- **Testing Strategies for ML** (30 min)
+  - **When DVC becomes necessary:**
+    - Large datasets (> 1GB)
+    - Complex multi-stage data pipelines
+    - Multiple teams sharing datasets
+    - Data-heavy organizations with frequent updates
+  
+  - **Decision Framework:**
+    | Criteria | MLFlow Artifacts | DVC + MLFlow | Both |
+    |----------|------------------|--------------|------|
+    | **Data Size** | < 500MB | > 1GB | Mixed |
+    | **Pipeline Complexity** | Simple transforms | Multi-stage pipelines | Varies |
+    | **Team Size** | 1-5 people | 5+ people | Large orgs |
+    | **Storage Cost** | Low concern | High concern | Critical |
+    | **Learning Curve** | Minimal | Moderate | Complex |
+    
+  - **Real-world examples and case studies**
+  - **Migration strategies**: Starting with MLFlow, when to add DVC
+
+- **Testing Strategies for ML** (15 min)
   - Unit testing for ML code vs traditional software
   - Data validation and quality checks
   - Model testing strategies (performance, fairness, robustness)
-  - Integration testing for ML pipelines
 
-### Practical Lab (3 hours)
-- **Data Version Control Setup** (60 min)
-  ```bash
-  # Initialize DVC in project
-  uv run dvc init
+### Practical Lab (2.5 hours)
+- **Advanced MLFlow Model Registry** (75 min)
+  ```python
+  # Advanced model registration with metadata
+  import mlflow
+  from mlflow.tracking import MlflowClient
   
-  # Add data versioning
-  uv run dvc add data/raw/dataset.csv
-  uv run dvc push
+  client = MlflowClient()
   
-  # Create data pipeline
-  uv run dvc stage add -n prepare \
-    -d data/raw/dataset.csv \
-    -o data/processed/clean_data.csv \
-    python src/data/prepare.py
+  # Register model with rich metadata
+  model_version = mlflow.register_model(
+      model_uri=f"runs:/{run.info.run_id}/model",
+      name="customer-churn-predictor",
+      tags={
+          "team": "data-science",
+          "algorithm": "random_forest",
+          "performance_threshold": "0.85",
+          "data_version": "2024_Q1",
+          "approved_by": "senior_ds"
+      }
+  )
   
-  # Track pipeline with MLFlow
-  uv run dvc repro
+  # Demonstrate data tracking with MLFlow
+  with mlflow.start_run():
+      # Method 1: Log datasets as artifacts
+      mlflow.log_artifact("data/train.csv", "datasets")
+      mlflow.log_artifact("data/test.csv", "datasets")
+      
+      # Method 2: Use MLFlow dataset tracking
+      dataset = mlflow.data.from_pandas(df, source="internal_db", name="customer_data")
+      mlflow.log_input(dataset, context="training")
+      
+      # Method 3: Track data lineage with tags
+      mlflow.set_tag("data_source", "customer_db_v2")
+      mlflow.set_tag("feature_engineering", "v3.1")
+      mlflow.set_tag("data_quality_score", "95%")
   ```
 
-- **ML Testing Implementation** (60 min)
+- **Tool Selection Exercise** (30 min)
+  - **Scenario Analysis**: Students receive 3 different company scenarios
+    - Startup with small datasets
+    - Mid-size company with growing data needs  
+    - Enterprise with complex data pipelines
+  - **Group Discussion**: Which approach (MLFlow only vs MLFlow + DVC) for each scenario
+  - **Decision Documentation**: Students document their reasoning
+
+- **Comprehensive ML Testing** (75 min)
   ```python
-  # pytest examples for ML
+  # pytest examples for ML systems
+  import pytest
+  import pandas as pd
+  import numpy as np
+  from src.models.train import load_model, preprocess_data
+  
   def test_data_quality():
+      """Test data integrity and quality"""
       data = load_data()
-      assert not data.isnull().any().any()
-      assert len(data) > 1000
+      assert not data.isnull().any().any(), "Data contains null values"
+      assert len(data) > 1000, "Insufficient training data"
+      assert data['target'].nunique() > 1, "No class variation in target"
   
   def test_model_performance():
+      """Test model meets performance requirements"""
       model = load_model()
-      accuracy = evaluate_model(model)
-      assert accuracy > 0.85
+      X_test, y_test = load_test_data()
+      accuracy = model.score(X_test, y_test)
+      assert accuracy > 0.85, f"Model accuracy {accuracy} below threshold"
   
-  def test_model_bias():
-      predictions = model.predict(test_data)
-      bias_score = calculate_bias(predictions, protected_attributes)
-      assert bias_score < 0.1
+  def test_data_lineage_tracking():
+      """Test that data versions are properly tracked"""
+      with mlflow.start_run() as run:
+          # Verify data tracking
+          data_tags = mlflow.get_run(run.info.run_id).data.tags
+          assert "data_source" in data_tags, "Data source not tracked"
+          assert "data_version" in data_tags, "Data version not tracked"
   ```
-
-- **Advanced MLFlow Tracking** (60 min)
-  - Custom metrics and artifacts with DVC integration
-  - Nested runs for complex workflows
-  - Auto-logging with different frameworks
-  - Hyperparameter optimization with Optuna
-  - Data lineage tracking
 
 ### 🛠️ Hands-on Project
 Build a hyperparameter optimization pipeline:
@@ -624,11 +717,40 @@ uv sync
 - [DVC Documentation](https://dvc.org/doc)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 
-### Sample Datasets
-- Iris Classification
-- House Prices Regression
-- Text Sentiment Analysis
-- Time Series Forecasting
+### Environment Setup
+```bash
+# Install uv (fast Python package manager)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Create course project
+uv init mlops-course
+cd mlops-course
+
+# Add core dependencies
+uv add mlflow[extras] scikit-learn pandas numpy matplotlib seaborn
+uv add dvc fastapi uvicorn python-dotenv
+
+# Add development tools
+uv add pytest black ruff mypy pre-commit --group dev
+
+# Add optional ML libraries
+uv add optuna chromadb sentence-transformers --group ml
+
+# Activate environment
+uv sync
+source .venv/bin/activate  # Linux/Mac
+# or .venv\Scripts\activate  # Windows
+```
+
+### Sample Datasets & APIs
+- **Traditional ML**: Iris, Boston Housing, Titanic, Wine Quality
+- **Time Series**: Stock prices, IoT sensor data, sales forecasting
+- **NLP/GenAI**: Movie reviews, customer support tickets, documentation
+- **Computer Vision**: CIFAR-10, Fashion-MNIST (if time permits)
+
+### Cloud Resources (Optional)
+- **Free tiers**: AWS, Google Cloud, Azure for deployment demos
+- **Alternatives**: Local Docker containers for full offline experience
 
 ---
 

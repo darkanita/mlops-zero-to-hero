@@ -1,4 +1,7 @@
 # MLOps with MLFlow: Zero to Hero Course
+
+**🌍 Languages:** [English](README.md) | [Spanish](README-ES.md)
+
 **Duration:** 20 hours (5 sessions × 4 hours)  
 **Format:** Theoretical + Practical  
 **Tech Stack:** Python, MLFlow (Latest Version), Docker, Git
@@ -67,7 +70,21 @@ These topics ensure students gain comprehensive MLOps knowledge beyond just MLFl
 
 ---
 
+## 📅 Course Structure & Detailed Sessions
+
+### Session Overview
+| Session | Topic | Duration | Materials |
+|---------|-------|----------|-----------|
+| **1** | MLOps Fundamentals & Environment Setup | 4 hours | [📋 Detailed Session Plan](session-1-detailed.md) |
+| **2** | Advanced MLFlow Features & Tool Selection Strategy | 4 hours | Coming Soon |
+| **3** | CI/CD, Security & Production Deployment | 4 hours | Coming Soon |
+| **4** | GenAI MLOps & Cost Optimization | 4 hours | Coming Soon |
+| **5** | Production Operations & Enterprise MLOps | 4 hours | Coming Soon |
+
+---
+
 ## 📅 Session 1: MLOps Fundamentals & Environment Setup (4 hours)
+*[👉 View Detailed Teaching Plan](session-1-detailed.md)*
 
 ### Theory (1.5 hours)
 - **MLOps Introduction** (30 min)

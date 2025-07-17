@@ -37,7 +37,7 @@ Al finalizar este curso, los estudiantes serán capaces de:
 ### Resumen de Sesiones
 | Sesión | Tema | Duración | Materiales |
 |---------|-------|----------|-----------|
-| **1** | Fundamentos MLOps y Configuración del Entorno | 4 horas | [📋 Plan de Sesión Detallado](session-1-detailed.md) |
+| **1** | Fundamentos MLOps y Configuración del Entorno | 4 horas | [📋 Plan de Sesión Detallado](session1/session-1-detailed-ES.md) |
 | **2** | Características Avanzadas MLFlow y Estrategia de Selección de Herramientas | 4 horas | Próximamente |
 | **3** | CI/CD, Seguridad y Despliegue en Producción | 4 horas | Próximamente |
 | **4** | MLOps GenAI y Optimización de Costos | 4 horas | Próximamente |

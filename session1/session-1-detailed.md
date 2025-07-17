@@ -1,4 +1,7 @@
 # Session 1: MLOps Fundamentals & Environment Setup
+
+**🌍 Idiomas:** [English](session-1-detailed.md) | [Spanish](session-1-detailed-ES.md)
+
 **Duration:** 4 hours  
 **Format:** Theory (1.5h) + Hands-on Lab (2.5h)  
 **Class Size:** 8-20 students  

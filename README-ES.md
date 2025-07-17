@@ -1,6 +1,6 @@
 # MLOps con MLFlow: Curso de Cero a Héroe
 
-**🌍 Idiomas:** [English](README.md) | [Español](README-ES.md)
+**🌍 Idiomas:** [Ingles](README.md) | [Español](README-ES.md)
 
 **Duración:** 20 horas (5 sesiones × 4 horas)  
 **Formato:** Teórico + Práctico  

@@ -46,7 +46,7 @@ Al finalizar este curso, los estudiantes serán capaces de:
 ---
 
 ## 📅 Sesión 1: Fundamentos MLOps y Configuración del Entorno (4 horas)
-*[👉 Ver Plan de Enseñanza Detallado](session-1-detailed.md)*
+*[👉 Ver Plan de Enseñanza Detallado](session1/session-1-detailed-ES.md)*
 
 ### Teoría (1.5 horas)
 - **Introducción a MLOps** (30 min)

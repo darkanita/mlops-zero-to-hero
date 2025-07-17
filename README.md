@@ -75,7 +75,7 @@ These topics ensure students gain comprehensive MLOps knowledge beyond just MLFl
 ### Session Overview
 | Session | Topic | Duration | Materials |
 |---------|-------|----------|-----------|
-| **1** | MLOps Fundamentals & Environment Setup | 4 hours | [📋 Detailed Session Plan](session-1-detailed.md) |
+| **1** | MLOps Fundamentals & Environment Setup | 4 hours | [📋 Detailed Session Plan](session1/session-1-detailed.md) |
 | **2** | Advanced MLFlow Features & Tool Selection Strategy | 4 hours | Coming Soon |
 | **3** | CI/CD, Security & Production Deployment | 4 hours | Coming Soon |
 | **4** | GenAI MLOps & Cost Optimization | 4 hours | Coming Soon |

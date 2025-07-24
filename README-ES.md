@@ -38,7 +38,8 @@ Al finalizar este curso, los estudiantes serán capaces de:
 | Sesión | Tema | Duración | Materiales |
 |---------|-------|----------|-----------|
 | **1** | Fundamentos MLOps y Configuración del Entorno | 4 horas | [📋 Plan de Sesión Detallado](session1/session-1-detailed-ES.md) |
-| **2** | Características Avanzadas MLFlow y Estrategia de Selección de Herramientas | 4 horas | Próximamente |
+| **2A** | Características Avanzadas MLFlow | 2 horas | [📋 Plan de Sesión Detallado](session-2a-detailed-ES.md) |
+| **2B** | Estrategia de Selección de Herramientas y Testing ML | 2 horas | [📋 Plan de Sesión Detallado](session-2b-detailed-ES.md) |
 | **3** | CI/CD, Seguridad y Despliegue en Producción | 4 horas | Próximamente |
 | **4** | MLOps GenAI y Optimización de Costos | 4 horas | Próximamente |
 | **5** | Operaciones de Producción y MLOps Empresarial | 4 horas | Próximamente |
@@ -149,96 +150,91 @@ with mlflow.start_run():
 
 ---
 
-## 📅 Sesión 2: Características Avanzadas MLFlow y Estrategia de Selección de Herramientas (4 horas)
+## 📅 Sesión 2A: Características Avanzadas MLFlow (2 horas)
+*[👉 Ver Plan de Enseñanza Detallado](session-2a-detailed-ES.md)*
 
-### Teoría (1.5 horas)
-- **Profundización en MLFlow Model Registry** (30 min)
+### Teoría (45 minutos)
+- **MLFlow Tracking Avanzado** (25 min)
+  - Nested runs para experimentos complejos
+  - Auto-logging con diferentes frameworks ML
+  - Métricas personalizadas y artefactos avanzados
+  
+- **Profundización en MLFlow Model Registry** (20 min)
   - Estrategias de gestión del ciclo de vida del modelo
-  - Entornos de staging (Development, Staging, Production)
-  - Flujos de trabajo de promoción de modelos y procesos de aprobación
-  - Linaje de modelos y gestión de metadatos
+  - Webhooks y automatización
+  - Transiciones de etapa y flujos de aprobación
 
-- **Estrategia de Gestión de Datos: MLFlow vs DVC** (45 min)
-  - **Cuándo los artefactos MLFlow son suficientes:**
-    - Datasets < 500MB
-    - Pipelines de preprocesamiento simples
-    - Equipos pequeños (< 5 científicos de datos)
-    - Entornos de prototipado y aprendizaje
-  
-  - **Cuándo DVC se vuelve necesario:**
-    - Datasets grandes (> 1GB)
-    - Pipelines de datos complejos multi-etapa
-    - Múltiples equipos compartiendo datasets
-    - Organizaciones con datos pesados y actualizaciones frecuentes
-  
-  - **Marco de Decisión:**
-    | Criterio | Artefactos MLFlow | DVC + MLFlow | Ambos |
-    |----------|------------------|--------------|-------|
-    | **Tamaño de Datos** | < 500MB | > 1GB | Mixto |
-    | **Complejidad Pipeline** | Transformaciones simples | Pipelines multi-etapa | Varía |
-    | **Tamaño Equipo** | 1-5 personas | 5+ personas | Organizaciones grandes |
-    | **Costo Almacenamiento** | Poca preocupación | Alta preocupación | Crítico |
-    | **Curva Aprendizaje** | Mínima | Moderada | Compleja |
-    
-  - **Ejemplos del mundo real y casos de estudio**
-  - **Estrategias de migración**: Comenzar con MLFlow, cuándo agregar DVC
+### Laboratorio Práctico (75 minutos)
+- **Tracking Avanzado con Nested Runs** (25 min)
+  - Optimización de hiperparámetros con runs padre/hijo
+  - Seguimiento de validación cruzada
+  - Visualización y análisis de resultados
 
-- **Estrategias de Testing para ML** (15 min)
-  - Testing unitario para código ML vs software tradicional
-  - Validación de datos y verificaciones de calidad
-  - Estrategias de testing de modelos (rendimiento, equidad, robustez)
+- **Auto-logging con Diferentes Frameworks** (25 min)
+  - Comparación de múltiples modelos con auto-logging
+  - Integración scikit-learn, métodos ensemble
+  - Métricas personalizadas sobre auto-logging
 
-### Laboratorio Práctico (2.5 horas)
-- **MLFlow Model Registry Avanzado** (75 min)
-  - Registrar modelos programáticamente
-  - Etapas del modelo: Staging, Production, Archived
-  - Versionado y linaje de modelos
-  - Integración de webhooks para CI/CD
-
-- **Ejercicio de Selección de Herramientas** (30 min)
-  - **Análisis de Escenarios**: Los estudiantes reciben 3 escenarios diferentes de empresas
-    - Startup con datasets pequeños
-    - Empresa mediana con necesidades crecientes de datos
-    - Empresa con pipelines de datos complejos
-  - **Discusión Grupal**: Qué enfoque (solo MLFlow vs MLFlow + DVC) para cada escenario
-  - **Documentación de Decisiones**: Los estudiantes documentan su razonamiento
-
-- **Testing Integral de ML** (75 min)
-  - Tests unitarios, de integración y específicos para ML
-  - Validación de datos y verificaciones de calidad
-  - Estrategias de testing de modelos (rendimiento, equidad, robustez)
-  - Automatización de testing con pytest
+- **Model Registry Avanzado** (25 min)
+  - Registro programático de modelos
+  - Promoción automatizada con validaciones
+  - Reportes y gestión de estado de modelos
 
 ### 🛠️ Proyecto Práctico
-Construir un pipeline de optimización de hiperparámetros:
+Construir sistema avanzado de seguimiento de experimentos:
 ```python
-import mlflow
-import optuna
-from mlflow.tracking import MlflowClient
+# Nested runs para optimización de hiperparámetros
+with mlflow.start_run(run_name="hyperparameter_optimization") as parent_run:
+    for i, params in enumerate(ParameterGrid(param_grid)):
+        with mlflow.start_run(run_name=f"trial_{i+1}", nested=True):
+            model = RandomForestClassifier(**params)
+            cv_scores = cross_val_score(model, X_train, y_train, cv=5)
+            mlflow.log_metrics({"cv_mean": cv_scores.mean()})
+```
 
-def objective(trial):
-    with mlflow.start_run(nested=True):
-        # Sugerir parámetros
-        n_estimators = trial.suggest_int('n_estimators', 10, 100)
-        max_depth = trial.suggest_int('max_depth', 1, 10)
-        
-        # Entrenar y evaluar modelo
-        model = RandomForestClassifier(
-            n_estimators=n_estimators,
-            max_depth=max_depth
-        )
-        model.fit(X_train, y_train)
-        accuracy = accuracy_score(y_test, model.predict(X_test))
-        
-        # Registrar en MLFlow
-        mlflow.log_params(trial.params)
-        mlflow.log_metric("accuracy", accuracy)
-        
-        return accuracy
+---
 
-# Ejecutar optimización
-study = optuna.create_study(direction='maximize')
-study.optimize(objective, n_trials=20)
+## 📅 Sesión 2B: Estrategia de Selección de Herramientas y Testing ML (2 horas)
+*[👉 Ver Plan de Enseñanza Detallado](session-2b-detailed-ES.md)*
+
+### Teoría (45 minutos)
+- **Framework de Selección de Herramientas MLOps** (25 min)
+  - Metodología de matriz de decisión
+  - Criterios de evaluación MLFlow vs DVC
+  - Análisis de escenarios empresariales reales
+  
+- **Estrategias de Testing para ML** (20 min)
+  - Pirámide de testing ML (tests de datos, modelo, pipeline)
+  - Testing de equidad y sesgo
+  - Herramientas y frameworks de testing
+
+### Laboratorio Práctico (75 minutos)
+- **Ejercicio de Selección de Herramientas** (30 min)
+  - Herramienta interactiva de análisis de escenarios
+  - Implementación de framework de decisión
+  - Generación de reportes de recomendación
+
+- **Estrategias de Testing ML** (25 min)
+  - Suite integral de testing con pytest
+  - Tests de calidad de datos, rendimiento de modelos
+  - Testing de integración de pipelines
+
+- **Optimización de Hiperparámetros con Optuna** (20 min)
+  - Integración Optuna + MLFlow
+  - Estrategias avanzadas de optimización
+  - Selección automatizada de modelos
+
+### 🛠️ Proyecto Práctico
+Crear framework de selección de herramientas y suite de testing:
+```python
+# Framework de selección de herramientas
+selector = MLOpsToolSelector()
+recommendation = selector.recommend_tool(scenario)
+
+# Testing integral de ML
+def test_model_accuracy_threshold(trained_model):
+    test_accuracy = trained_model.score(X_test, y_test)
+    assert test_accuracy >= 0.85, f"Test accuracy too low: {test_accuracy:.4f}"
 ```
 
 ---
@@ -559,12 +555,3 @@ Estos temas aseguran que los estudiantes obtengan conocimiento integral de MLOps
 - Gobernanza y cumplimiento MLOps
 
 ---
-
-## 🤝 Soporte y Comunidad
-
-- Foro del curso para Q&A
-- Horarios de oficina con instructores
-- Recursos de la comunidad MLFlow
-- Speakers invitados de la industria
-
-**Certificado:** Al completar exitosamente, los participantes reciben un certificado "MLOps con MLFlow Professional".

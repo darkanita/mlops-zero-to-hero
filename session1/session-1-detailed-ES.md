@@ -548,9 +548,12 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from sklearn.metrics import classification_report, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
-from src.utils.config import config
 import argparse
 import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+from src.utils.config import config
+
 
 def load_data():
     """Cargar datos de entrenamiento y prueba."""
